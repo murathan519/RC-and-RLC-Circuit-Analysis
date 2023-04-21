@@ -1,4 +1,4 @@
-%**************** Electronical Components **********************
+%********************** Data Handling *************************
 tata = transpose(RC);
 % data = transpose(RLC);
 
@@ -22,11 +22,11 @@ initials = 0;
 group6 = @(t, Vc)(Vs/(R*C)-Vc./(R*C));
 [t, Vc] = ode45(group6,time_interval,initials); 
 
-%******************* Analitical Solution ***********************
+%******************* Analytical Solution ***********************
 ti = [0:0.1:80];
-analitical_solution = dsolve('DY =(Vs-Y)/(R*C)','Y(0)=0');
-pretty(analitical_solution);
-final_solution = simplify(analitical_solution);
+analytical_solution = dsolve('DY =(Vs-Y)/(R*C)','Y(0)=0');
+pretty(analytical_solution);
+final_solution = simplify(analytical_solution);
 solution_to_be_plotted = Vs - Vs*exp(-ti/(C*R));
 
 %********************* Source Voltage **************************
@@ -35,7 +35,7 @@ c = Vs;
 const = @(x)(c).*x.^(0);
 
 p = 0:0.001:80;
-d = Vs*0.97;
+d = Vs*0.95; %Settling time line
 constant = @(p)(d).*p.^(0);
 
 %************************* Plots *******************************
@@ -49,7 +49,7 @@ plot(x, const(x),'r','LineWidth',1);
 hold on
 plot(p, constant(p),'y','LineWidth',3);
 
-legend('Analitical Solution','Numerical Solution','Experimental Data','Source Voltage');
+legend('Analytical Solution','Numerical Solution','Experimental Data','Source Voltage');
 xlabel("Time (s)");
 ylabel("Voltage (V)");
 title("RC Circuit");
