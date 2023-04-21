@@ -1,4 +1,4 @@
-%**************** Electronical Components **********************
+%********************** Data Handling *************************
 % tata = transpose(RC);
 data = transpose(RLC);
 
@@ -22,11 +22,11 @@ initials = [0 0];
 group6 = @(t, Vc) [Vc(2);(-(R/L)*Vc(2)+(Vs-Vc(1))/(L*C))];
 [t, Vc] = ode23s(group6,time_interval,initials); 
 
-%******************* Analitical Solution ***********************
+%******************* Analytical Solution ***********************
 ti = [0:0.1:60];
-analitical_solution = dsolve('D2Y = -(R/L)*DY + (Vs-Y)/(L*C)','Y(0)=0','DY(0)=0');
-pretty(analitical_solution);
-final_solution = simplify(analitical_solution);
+analytical_solution = dsolve('D2Y = -(R/L)*DY + (Vs-Y)/(L*C)','Y(0)=0','DY(0)=0');
+pretty(analytical_solution);
+final_solution = simplify(analytical_solution);
 solution_to_be_plotted = Vs-(Vs*exp(-(ti*((C^2*R^2 - 4*L*C)^(1/2) + C*R))/(2*C*L))*((C^2*R^2 - 4*L*C)^(1/2) - C*R))/(2*(C^2*R^2 - 4*C*L)^(1/2)) - (Vs*exp((ti*((C^2*R^2 - 4*L*C)^(1/2) - C*R))/(2*C*L))*((C^2*R^2 - 4*L*C)^(1/2) + C*R))/(2*(C^2*R^2 - 4*C*L)^(1/2));
 
 %********************* Source Voltage **************************
@@ -35,7 +35,7 @@ c = Vs;
 const = @(x)(c).*x.^(0);
 
 p = 0:0.001:80;
-d = Vs*0.97;
+d = Vs*0.95; %Settling time line
 constant = @(p)(d).*p.^(0);
 
 %************************* Plots *******************************
@@ -49,7 +49,7 @@ plot(x, const(x),'r','LineWidth',1);
 hold on
 plot(p, constant(p),'y','LineWidth',3);
 
-legend('Analitical Solution','Numerical Solution','Experimental Data','Source Voltage');
+legend('Analytical Solution','Numerical Solution','Experimental Data','Source Voltage');
 xlabel("Time (s)");
 ylabel("Voltage (V)");
 title("RLC Circuit");
